@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PW</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">imagem logo</div>
+        <div class="navigation-header">
+            <div page="main" onclick="selectPage('main')" class="button-simple active-button">Criar times</div>
+
+            <div page="create-game" onclick="selectPage('create-game')" class="button-simple">Marcar partida</div>
+
+            <div page="running" class="button-simple" onclick="selectPage('running')">Em jogo</div>
+        </div>
+        <div>
+            <button>Theme</button>
+        </div>
+    </header>
+
+    <div class="create-match" id="main" style="display: none;">
+        <div class="container">
+            <div class="between">
+                <span>Partidas</span>
+
+                <button class="btn-add-match" id="add-match">
+                    Cadastrar partida
+                </button>
+            </div>
+
+            
+
+            <table id="table" style="display: none;" >
+                <thead>
+                    <tr>
+                        <th>Grupo</th>
+                        <th>Horário</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+
+                </tbody>
+            </table>
+        </div>
+        <div id="modal" class="modal" style="display: none;">
+            <div>
+                <form id="form">
+                    <div id="inputs-game">
+                        <!-- título, um local, data e horário -->
+                        <div class="column">
+                            <label>Titulo</label>
+                            <input type="text" placeholder="Nome do grupo..." name="titulo" required />
+                        </div>
+                        <div class="column">
+                            <label>Localização</label>
+                            <input type="text" placeholder="Ex.: Arena" name="local" required />
+                        </div>
+                        <div class="column">
+                            <label>Data</label>
+                            <input type="datetime-local" name="date" required />
+                        </div>
+                    </div>
+
+                    <footer>
+                        <button id="save-matche" onsubmit="event.preventDefault(); validateMyForm();">
+                            Salvar partida
+                        </button>
+                        <button id="close-modal">Fechar</button>
+                    </footer>
+                </form>
+            </div>
+        </div>
+
+        <div id="modal-presenca" class="modal" style="display: none;">
+            <div class="content">
+                <div id="modal-header">
+                    <h2 id="modal-presenca-h2">Lista de presença do grupo: </h2>
+
+                    <button id="close-modal-players">
+                        <img src="./icons/close-icon.png" alt="">
+                    </button>
+                </div>
+
+                <div class="wrapper">
+                    <div class="time-inputs">
+                        <img src="./icons/blue-square.png" alt="">
+                    </div>
+                    <div class="time-inputs">
+                        <img src="./icons/red-square.png" alt="">
+                    </div>
+                </div>
+                <footer>
+                    <button id="save-players">Salvar</button>
+                </footer>
+            </div>
+        </div>
+
+        <div id="modal-confirmar-presenca" class="modal" style="display: none;">
+            <div class="content">
+                <div id="modal-header">
+                    <h2 id="modal-presenca-h2">Lista de presença do grupo: </h2>
+
+                    <button id="close-modal-players-confirm">
+                        <img src="./icons/close-icon.png" alt="">
+                    </button>
+                </div>
+
+                <div class="wrapper">
+                    <div class="time-inputs-confirm">
+                        <img src="./icons/blue-square.png" alt="">
+                    </div>
+                    <div class="time-inputs-confirm">
+                        <img src="./icons/red-square.png" alt="">
+                    </div>
+                </div>
+                <footer>
+                    <button id="confirm-players">Salvar</button>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <div id="create-game" style="display: none;">
+        <h2>teste</h2>
+    </div>
+
+    <div id="running" style="display: none;">
+        <h2>rnning</h2>
+    </div>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="script.js"></script>
+    
+</body>
+
+</html>
