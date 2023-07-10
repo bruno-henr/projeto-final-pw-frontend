@@ -24,6 +24,7 @@ document.getElementById("save-players").addEventListener("click", () => {
   const timeVermelhoInputs = document.querySelectorAll(
     ".wrapper .time-inputs:nth-child(2) input"
   );
+
   // Iterando sobre os inputs do time azul e adicionando as informações aos objetos
   timeAzulInputs.forEach(function (input, index) {
     const nomeInput = input.getAttribute("name");
@@ -60,24 +61,19 @@ document.getElementById("save-players").addEventListener("click", () => {
     }
   });
 
-  const time_azul = timeAzul.jogadores.map(item => {
-    item.confirmado = item?.confirmado == true
-    return item
-  })
-  const time_vermelho = timeVermelho.jogadores.map(item => {
-    item.confirmado = item?.confirmado == true
-    return item
-  })
+  const time_azul = timeAzul.jogadores.map((item) => {
+    item.confirmado = item?.confirmado == true;
+    return item;
+  });
+  const time_vermelho = timeVermelho.jogadores.map((item) => {
+    item.confirmado = item?.confirmado == true;
+    return item;
+  });
 
-
-  // Exemplo de uso: exibindo as informações dos times no console
-  // console.log("Time Azul:", timeAzul);
-  // console.log("Time Vermelho:", timeVermelho);
   adicionarJogadoresPartida({
     timeAzul: time_azul,
     timeVermelho: time_vermelho,
   });
-  // console.log("match_current:", match_current);
 });
 
 async function adicionarJogadoresPartida(jogadores) {
@@ -97,9 +93,6 @@ async function adicionarJogadoresPartida(jogadores) {
       tbody.innerHTML = "";
       NotificationSucess("Adicionado jogadores com sucesso!");
       window.location.reload(true);
-      // resetModalPlayer()
-      // renderMatches();
-      // remover essas duas buceta de coluand e time
 
       document.getElementById("modal-presenca").style.display = "none";
       // return response;
@@ -141,7 +134,6 @@ function criarJogador(nome, telefone) {
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const { titulo, local, date } = form.elements;
-  console.log("form.elements =>", form.elements);
 
   let formData = {
     titulo: titulo.value,
@@ -258,36 +250,17 @@ function renderInputs(inputsTimeAzul, inputsTimeVermelho) {
       });
       inputNome.value = "";
       inputTelefone.value = "";
+      btnRemover.style.display = "none";
     });
-
-    // input switch
-    // const divSwitchContainer = document.createElement("div");
-    // divSwitchContainer.classList.add("container-switch");
-
-    // const id_element = "check" + index + match_current.id.slice(-5);
-    // const inputCheckbox = document.createElement("input");
-    // inputCheckbox.type = "checkbox";
-    // inputCheckbox.checked = false;
-    // inputCheckbox.id = id_element;
-
-    // const labelCheckbox = document.createElement("label");
-    // labelCheckbox.htmlFor = id_element;
-    // labelCheckbox.classList.add("button");
-
-    // divSwitchContainer.appendChild(inputCheckbox);
-    // divSwitchContainer.appendChild(labelCheckbox);
 
     const divActionsPlayer = document.createElement("div");
     divActionsPlayer.appendChild(btnRemover);
-    // divActionsPlayer.appendChild(divSwitchContainer);
 
-    // Adicionando os elementos à nova div
     novaDiv.appendChild(label);
     novaDiv.appendChild(inputNome);
     novaDiv.appendChild(inputTelefone);
     novaDiv.appendChild(divActionsPlayer);
 
-    // Adicionando a nova div à div com a classe "time-inputs"
     divTimeInputs.appendChild(novaDiv);
   });
 
@@ -348,7 +321,7 @@ function renderInputs(inputsTimeAzul, inputsTimeVermelho) {
     // Criando o botão de limpar
     const btnRemover = document.createElement("button");
     btnRemover.textContent = "Remover";
-
+    btnRemover.classList.add("btn-remove");
     btnRemover.addEventListener("click", async function () {
       await removeInput({
         player: inputNome.value,
@@ -357,6 +330,7 @@ function renderInputs(inputsTimeAzul, inputsTimeVermelho) {
       inputNome.value = "";
       inputTelefone.value = "";
       btnRemover.parentNode.removeChild(btnRemover);
+      btnRemover.style.display = "none";
     });
 
     // Adicionando os elementos à nova div
@@ -461,6 +435,12 @@ async function renderMatches() {
 
       let btnConfirmar = document.createElement("button");
       btnConfirmar.innerText = "Confirmar jogadores";
+      btnConfirmar.disabled = 
+        matches[i].attendance?.length == 0 || (
+          matches[i].attendance.timeAzul.length == 0 &&
+          matches[i].attendance.timeVermelho.length == 0 
+
+        ) ? true : false;
       btnConfirmar.onclick = () => {
         confirmPlayersModalHandler(match);
       };
@@ -475,14 +455,6 @@ async function renderMatches() {
     table.style.display = "block";
   }
 }
-
-document
-  .getElementById("close-modal-players-confirm")
-  .addEventListener("click", () => {
-    document.getElementById("modal-confirmar-presenca").style.display = "none";
-    // Limpar DOM
-    // resetModalPlayer()
-  });
 
 async function removeMatch(match) {
   return await fetch(`http://localhost:3333/matches/${match.id}`, {
@@ -499,7 +471,7 @@ async function removeMatch(match) {
     });
 }
 const buttons = document.querySelectorAll(".navigation-header .button-simple");
-
+// Botoes do header
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
     buttons.forEach((btn) => btn.classList.remove("active-button"));
@@ -529,19 +501,23 @@ window.onload = async () => {
 };
 
 function confirmPlayersModalHandler(match) {
-  console.log('confirm players =>', match);
+  // console.log("confirm players =>", match);
+  match_current = match;
+
   document.getElementById("modal-confirmar-presenca").style.display = "flex";
+
   const divTimeInputsBlue = document.querySelector(
     ".time-inputs-confirm:nth-child(1)"
   );
   const divTimeInputsRed = document.querySelector(
     ".time-inputs-confirm:nth-child(2)"
   );
-  
+
   match?.attendance.timeAzul?.forEach((input, index) => {
     console.log("input =>", input);
     // Criando a nova div
     const novaDiv = document.createElement("div");
+    novaDiv.classList.add("div-input-player-confirmation");
 
     // Criando o label
     const label = document.createElement("label");
@@ -562,7 +538,7 @@ function confirmPlayersModalHandler(match) {
     inputTelefone.value = input.telefone;
 
     // Criando o botão de limpar
-    
+
     // input switch
     const divSwitchContainer = document.createElement("div");
     divSwitchContainer.classList.add("container-switch");
@@ -599,7 +575,7 @@ function confirmPlayersModalHandler(match) {
     for (let index = 5 - dif + 1; index <= 5; index++) {
       // Criando a nova div
       const novaDiv = document.createElement("div");
-
+      novaDiv.classList.add("div-input-player-confirmation");
       // Criando o label
       const label = document.createElement("label");
       label.textContent = "Jogador " + index;
@@ -622,13 +598,14 @@ function confirmPlayersModalHandler(match) {
       novaDiv.appendChild(inputTelefone);
 
       // Adicionando a nova div à div com a classe "time-inputs"
-      divTimeInputsBlue.appendChild(novaDiv);
+      //divTimeInputsBlue.appendChild(novaDiv);
     }
   }
   // Vermelho
   match?.attendance.timeVermelho?.forEach((input, index) => {
     // Criando a nova div
     const novaDiv = document.createElement("div");
+    novaDiv.classList.add("div-input-player-confirmation");
 
     // Criando o label
     const label = document.createElement("label");
@@ -649,24 +626,33 @@ function confirmPlayersModalHandler(match) {
     inputTelefone.value = input.telefone;
 
     // Criando o botão de limpar
-    const btnRemover = document.createElement("button");
-    btnRemover.textContent = "Remover";
 
-    btnRemover.addEventListener("click", async function () {
-      await removeInput({
-        player: inputNome.value,
-        telefone: inputTelefone.value,
-      });
-      inputNome.value = "";
-      inputTelefone.value = "";
-      btnRemover.parentNode.removeChild(btnRemover);
-    });
+    // input switch
+    const divSwitchContainer = document.createElement("div");
+    divSwitchContainer.classList.add("container-switch");
+    // Adicionado "_r" para nao sobrepor evento no time azul
+    const id_element = "check_r" + index + match.id.slice(-5);
+    const inputCheckbox = document.createElement("input");
+    inputCheckbox.type = "checkbox";
+    inputCheckbox.checked = input.confirmado;
+    inputCheckbox.id = id_element;
+
+    const labelCheckbox = document.createElement("label");
+    labelCheckbox.htmlFor = id_element;
+    labelCheckbox.classList.add("button");
+
+    divSwitchContainer.appendChild(inputCheckbox);
+    divSwitchContainer.appendChild(labelCheckbox);
+
+    const divActionsPlayer = document.createElement("div");
+    divActionsPlayer.appendChild(divSwitchContainer);
+    // divActionsPlayer.appendChild(divSwitchContainer);
 
     // Adicionando os elementos à nova div
     novaDiv.appendChild(label);
     novaDiv.appendChild(inputNome);
     novaDiv.appendChild(inputTelefone);
-    novaDiv.appendChild(btnRemover);
+    novaDiv.appendChild(divActionsPlayer);
 
     // Adicionando a nova div à div com a classe "time-inputs"
     divTimeInputsRed.appendChild(novaDiv);
@@ -677,7 +663,7 @@ function confirmPlayersModalHandler(match) {
     for (let index = 5 - dif + 1; index <= 5; index++) {
       // Criando a nova div
       const novaDiv = document.createElement("div");
-
+      novaDiv.classList.add("div-input-player-confirmation");
       // Criando o label
       const label = document.createElement("label");
       label.textContent = "Jogador " + index;
@@ -700,7 +686,7 @@ function confirmPlayersModalHandler(match) {
       novaDiv.appendChild(inputTelefone);
 
       // Adicionando a nova div à div com a classe "time-inputs"
-      divTimeInputsRed.appendChild(novaDiv);
+      //divTimeInputsRed.appendChild(novaDiv);
     }
   }
 }
