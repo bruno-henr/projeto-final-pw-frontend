@@ -7,16 +7,17 @@
     <title>PW</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" href="/icons/favicon.png" type="image/png">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 
 <body>
     <header>
-        <div class="logo">imagem logo</div>
+        <div class="logo">
+            <img src="/icons/favicon.png" width="40" alt="">
+        </div>
         <div class="navigation-header">
             <div page="main" onclick="selectPage('main')" class="button-simple active-button">Criar times</div>
-
-            <div page="create-game" onclick="selectPage('create-game')" class="button-simple">Marcar partida</div>
 
             <div page="running" class="button-simple" onclick="selectPage('running')">Em jogo</div>
         </div>
@@ -28,21 +29,21 @@
     <div class="create-match" id="main" style="display: none;">
         <div class="container">
             <div class="between">
-                <span>Partidas</span>
+                <span>Todos os times</span>
 
                 <button class="btn-add-match" id="add-match">
                     Cadastrar partida
                 </button>
             </div>
 
-            
 
-            <table id="table" style="display: none;" >
+
+            <table id="table" style="display: none;">
                 <thead>
                     <tr>
                         <th>Grupo</th>
                         <th>Horário</th>
-                        <th>Status</th>
+                        <th>Data</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -107,7 +108,7 @@
         <div id="modal-confirmar-presenca" class="modal" style="display: none;">
             <div class="content">
                 <div id="modal-header">
-                    <h2 id="modal-presenca-h2">Lista de presença do grupo: </h2>
+                    <h2 id="modal-presenca-h2">Confirme os jogadores</h2>
 
                     <button id="close-modal-players-confirm">
                         <img src="./icons/close-icon.png" alt="">
@@ -139,7 +140,8 @@
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="script.js"></script>
-    
+    <script src="player-confirmation.js"></script>
+
 </body>
 
 </html>
