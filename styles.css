@@ -21,6 +21,21 @@ header {
     height: 60px;
 }
 
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+}
+
 header .navigation-header {
     height: 100%;
     display: flex;
@@ -167,11 +182,8 @@ th:nth-child(4), td:nth-child(4) {
     text-align: left;
 }
 .container table td {
-    /* width: 200px; */
-    /* text-align: center; */
     color: #1E1E1E;
     
-    /* border-bottom: 1px solid #1E1E1E; */
 }
 
 button {
@@ -404,6 +416,7 @@ input:checked + .button::before  {
     background-color: #ef5350 !important;
     border-radius: 4px;
     border: none !important;
+    margin-top: 2px;
     width: 100px;
     color: #fff;
     font-weight: 600;
@@ -433,4 +446,10 @@ input:checked + .button::before  {
 #modal-confirmar-presenca #modal-header #close-modal-players-confirm img:hover {
     background-color: rgba(66, 66, 66, 0.15);
     border-radius: 4px;
+}
+.div-input-player-confirmation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
 }
