@@ -57,7 +57,6 @@ document.getElementById("confirm-players").addEventListener("click", () => {
 });
 
 async function confirmationPlayers(players) {
-  console.log("f confirmation", match_current);
   return await fetch(
     `http://localhost:3333/matches/${match_current.id}/attendance`,
     {

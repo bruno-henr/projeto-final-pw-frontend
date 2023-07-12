@@ -10,6 +10,13 @@ body {
     position: relative;
 }
 
+input:disabled {
+    background-color: rgb(122, 122, 122);
+    color: linen;
+    opacity: 1;
+    cursor: not-allowed !important;
+}
+
 header {
     background-color: #1E1E1E;
     color: #fff;
@@ -54,7 +61,7 @@ header .navigation-header .button-simple {
 
 input {
     border: 1px solid #ccc;
-    margin: 4px 0;
+    margin: 2px 0;
     border-radius: 4px;
     padding: 5px;
     transition: all .03s ease-in-out;
@@ -324,6 +331,13 @@ select:focus {
     flex-direction: column;
     padding: 1rem;
 }
+.item-player {
+    display: flex;
+    flex-direction: column;
+    /* background-color: purple;
+    
+    margin-bottom: 0px !important; */
+}
 
 .time-inputs~.time-inputs {
     border-left: 1px solid #ccc;
@@ -334,13 +348,14 @@ select:focus {
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
 }
 .container-switch {
     width: 100px !important;
     height: 50px;
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-direction: row !important;
 }
 .button {
@@ -451,5 +466,6 @@ input:checked + .button::before  {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    justify-content: center;
+    gap: 2px;
 }

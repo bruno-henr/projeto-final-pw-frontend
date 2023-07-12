@@ -25,12 +25,25 @@ document.getElementById("save-players").addEventListener("click", () => {
     ".wrapper .time-inputs:nth-child(2) input"
   );
 
+  // console.log('partida atual =>',match_current.attendance.);
+  
+
   // Iterando sobre os inputs do time azul e adicionando as informações aos objetos
   timeAzulInputs.forEach(function (input, index) {
     const nomeInput = input.getAttribute("name");
     const telInput = timeAzulInputs[index + 1];
 
-    const jogador = criarJogador(input.value, telInput?.value);
+    let jogador = {};
+
+    const playerAlreadyExist = match_current.attendance.timeAzul.filter(p => {
+      return p.nome == input.value;
+    });
+
+    if(playerAlreadyExist.length) {
+      jogador = playerAlreadyExist[0];
+    } else {
+      jogador = criarJogador(input.value, telInput?.value);
+    }
 
     if (nomeInput.includes("jogador_nome")) {
       if (
@@ -48,7 +61,17 @@ document.getElementById("save-players").addEventListener("click", () => {
     const nomeInput = input.getAttribute("name");
     const telInput = timeVermelhoInputs[index + 1];
 
-    const jogador = criarJogador(input.value, telInput?.value);
+    let jogador = {};
+
+    const playerAlreadyExist = match_current.attendance.timeVermelho.filter(p => {
+      return p.nome == input.value;
+    });
+
+    if(playerAlreadyExist.length) {
+      jogador = playerAlreadyExist[0];
+    } else {
+      jogador = criarJogador(input.value, telInput?.value);
+    }
 
     if (nomeInput.includes("jogador_nome")) {
       if (
@@ -69,6 +92,9 @@ document.getElementById("save-players").addEventListener("click", () => {
     item.confirmado = item?.confirmado == true;
     return item;
   });
+
+  console.log('time_azul => (agora o bagulho ta indoooooo)', time_azul);
+  console.log('time_vermelho => (agora o bagulho ta indoooooo)', time_vermelho);
 
   adicionarJogadoresPartida({
     timeAzul: time_azul,
@@ -219,6 +245,7 @@ function renderInputs(inputsTimeAzul, inputsTimeVermelho) {
     console.log("input =>", input);
     // Criando a nova div
     const novaDiv = document.createElement("div");
+    novaDiv.classList.add("item-player");
 
     // Criando o label
     const label = document.createElement("label");
@@ -227,6 +254,7 @@ function renderInputs(inputsTimeAzul, inputsTimeVermelho) {
     // Criando o input de nome
     const inputNome = document.createElement("input");
     inputNome.type = "text";
+    inputNome.disabled = true;
     inputNome.placeholder = "Nome";
     inputNome.name = "jogador_nome_" + (index + 1);
     inputNome.value = input.nome;
@@ -234,6 +262,7 @@ function renderInputs(inputsTimeAzul, inputsTimeVermelho) {
     // Criando o input de telefone
     const inputTelefone = document.createElement("input");
     inputTelefone.type = "text";
+    inputTelefone.disabled = true;
     inputTelefone.placeholder = "Telefone";
     inputTelefone.name = "jogador_telefone_" + (index + 1);
     inputTelefone.value = input.telefone;
@@ -251,6 +280,8 @@ function renderInputs(inputsTimeAzul, inputsTimeVermelho) {
       inputNome.value = "";
       inputTelefone.value = "";
       btnRemover.style.display = "none";
+      inputNome.disabled = false;
+      inputTelefone.disabled = false;
     });
 
     const divActionsPlayer = document.createElement("div");
@@ -269,7 +300,7 @@ function renderInputs(inputsTimeAzul, inputsTimeVermelho) {
     for (let index = 5 - dif + 1; index <= 5; index++) {
       // Criando a nova div
       const novaDiv = document.createElement("div");
-
+      novaDiv.classList.add("item-player");
       // Criando o label
       const label = document.createElement("label");
       label.textContent = "Jogador " + index;
@@ -299,6 +330,7 @@ function renderInputs(inputsTimeAzul, inputsTimeVermelho) {
   inputsTimeVermelho?.forEach((input, index) => {
     // Criando a nova div
     const novaDiv = document.createElement("div");
+    novaDiv.classList.add("item-player");
 
     // Criando o label
     const label = document.createElement("label");
@@ -307,6 +339,7 @@ function renderInputs(inputsTimeAzul, inputsTimeVermelho) {
     // Criando o input de nome
     const inputNome = document.createElement("input");
     inputNome.type = "text";
+    inputNome.disabled = true;
     inputNome.placeholder = "Nome";
     inputNome.name = "jogador_nome_" + (index + 1);
     inputNome.value = input.nome;
@@ -314,6 +347,7 @@ function renderInputs(inputsTimeAzul, inputsTimeVermelho) {
     // Criando o input de telefone
     const inputTelefone = document.createElement("input");
     inputTelefone.type = "text";
+    inputTelefone.disabled = true;
     inputTelefone.placeholder = "Telefone";
     inputTelefone.name = "jogador_telefone_" + (index + 1);
     inputTelefone.value = input.telefone;
@@ -331,6 +365,8 @@ function renderInputs(inputsTimeAzul, inputsTimeVermelho) {
       inputTelefone.value = "";
       btnRemover.parentNode.removeChild(btnRemover);
       btnRemover.style.display = "none";
+      inputNome.disabled = false;
+      inputTelefone.disabled = false;
     });
 
     // Adicionando os elementos à nova div
@@ -348,7 +384,7 @@ function renderInputs(inputsTimeAzul, inputsTimeVermelho) {
     for (let index = 5 - dif + 1; index <= 5; index++) {
       // Criando a nova div
       const novaDiv = document.createElement("div");
-
+      novaDiv.classList.add("item-player");
       // Criando o label
       const label = document.createElement("label");
       label.textContent = "Jogador " + index;
@@ -435,12 +471,12 @@ async function renderMatches() {
 
       let btnConfirmar = document.createElement("button");
       btnConfirmar.innerText = "Confirmar jogadores";
-      btnConfirmar.disabled = 
-        matches[i].attendance?.length == 0 || (
-          matches[i].attendance.timeAzul.length == 0 &&
-          matches[i].attendance.timeVermelho.length == 0 
-
-        ) ? true : false;
+      btnConfirmar.disabled =
+        matches[i].attendance?.length == 0 ||
+        (matches[i].attendance.timeAzul.length == 0 &&
+          matches[i].attendance.timeVermelho.length == 0)
+          ? true
+          : false;
       btnConfirmar.onclick = () => {
         confirmPlayersModalHandler(match);
       };
