@@ -93,9 +93,6 @@ document.getElementById("save-players").addEventListener("click", () => {
     return item;
   });
 
-  console.log('time_azul => (agora o bagulho ta indoooooo)', time_azul);
-  console.log('time_vermelho => (agora o bagulho ta indoooooo)', time_vermelho);
-
   adicionarJogadoresPartida({
     timeAzul: time_azul,
     timeVermelho: time_vermelho,
@@ -103,7 +100,6 @@ document.getElementById("save-players").addEventListener("click", () => {
 });
 
 async function adicionarJogadoresPartida(jogadores) {
-  console.log("jogadores =>", jogadores);
   return await fetch(
     `http://localhost:3333/matches/${match_current.id}/attendance`,
     {
@@ -195,7 +191,6 @@ function NotificationSucess(message) {
 }
 
 async function createMatche(data) {
-  console.log(data);
   return await fetch("http://localhost:3333/matches", {
     method: "POST",
     headers: {
@@ -230,19 +225,16 @@ async function removeInput(data) {
   )
     .then((response) => response.json())
     .then((response) => {
-      console.log("response =>", response);
       NotificationSucess("Jogador removido.");
     });
 }
 
 function renderInputs(inputsTimeAzul, inputsTimeVermelho) {
   // Obtendo a referência para a div com a classe "time-inputs"
-  console.log(inputsTimeAzul, inputsTimeVermelho);
   const divTimeInputs = document.querySelector(".time-inputs:nth-child(1)");
   const divTimeInputs2 = document.querySelector(".time-inputs:nth-child(2)");
 
   inputsTimeAzul?.forEach((input, index) => {
-    console.log("input =>", input);
     // Criando a nova div
     const novaDiv = document.createElement("div");
     novaDiv.classList.add("item-player");
@@ -413,7 +405,6 @@ function renderInputs(inputsTimeAzul, inputsTimeVermelho) {
 }
 
 function handleButtonClick(match) {
-  console.log("recebi =>", match);
   match_current = match;
   renderInputs(match.attendance.timeAzul, match.attendance.timeVermelho);
 
@@ -440,7 +431,6 @@ document.getElementById("close-modal").addEventListener("click", () => {
 
 async function renderMatches() {
   let matches = await getMatches();
-  console.log("matches =>", matches);
   if (matches.length) {
     for (var i = 0; i < matches.length; ++i) {
       let tr = tbody.insertRow();
@@ -501,7 +491,6 @@ async function removeMatch(match) {
   })
     .then((response) => response.json())
     .then((response) => {
-      console.log("response =>", response);
       NotificationSucess("Partida excluida com sucesso.");
       window.location.reload();
     });
@@ -550,7 +539,6 @@ function confirmPlayersModalHandler(match) {
   );
 
   match?.attendance.timeAzul?.forEach((input, index) => {
-    console.log("input =>", input);
     // Criando a nova div
     const novaDiv = document.createElement("div");
     novaDiv.classList.add("div-input-player-confirmation");
@@ -722,7 +710,6 @@ function confirmPlayersModalHandler(match) {
       novaDiv.appendChild(inputTelefone);
 
       // Adicionando a nova div à div com a classe "time-inputs"
-      //divTimeInputsRed.appendChild(novaDiv);
     }
   }
 }
