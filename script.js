@@ -35,11 +35,11 @@ document.getElementById("save-players").addEventListener("click", () => {
 
     let jogador = {};
 
-    const playerAlreadyExist = match_current.attendance.timeAzul.filter(p => {
+    const playerAlreadyExist = match_current?.attendance?.timeAzul?.filter(p => {
       return p.nome == input.value;
     });
 
-    if(playerAlreadyExist.length) {
+    if(playerAlreadyExist?.length) {
       jogador = playerAlreadyExist[0];
     } else {
       jogador = criarJogador(input.value, telInput?.value);
@@ -63,11 +63,11 @@ document.getElementById("save-players").addEventListener("click", () => {
 
     let jogador = {};
 
-    const playerAlreadyExist = match_current.attendance.timeVermelho.filter(p => {
+    const playerAlreadyExist = match_current?.attendance?.timeVermelho?.filter(p => {
       return p.nome == input.value;
     });
 
-    if(playerAlreadyExist.length) {
+    if(playerAlreadyExist?.length) {
       jogador = playerAlreadyExist[0];
     } else {
       jogador = criarJogador(input.value, telInput?.value);
